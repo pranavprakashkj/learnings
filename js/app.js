@@ -2,7 +2,7 @@
 
 var model = {
   currentCat: null,
-  adminView: null,
+  adminView: false,
   cats: [
     {
       clickCount: 0,
@@ -43,6 +43,7 @@ var octopus = {
     model.adminView = false;
     catListView.init();
     catView.init();
+    adminView.init();
   },
 
   getCurrentCat: function () {
@@ -76,39 +77,42 @@ var octopus = {
 var adminView = {
   init: function () {
     this.adminButton = document.getElementById("admin-button");
-    // this.adminArea = document.getElementById("admin-area");
-    this.count = document.getElementById("count");
+    this.adminArea = document.getElementById("admin-area");
     this.submit = document.getElementById("submit");
-    adminButton.addEventListener("click", function () {
+    this.cancel = document.getElementById("cancel");
+    console.log("model.adminView", model.adminView);
+
+    this.adminArea.style.display = "none";
+    this.adminButton.addEventListener("click", function () {
       octopus.showAdmin();
+      adminView.render();
     });
+    this.cancel.addEventListener("click", function () {
+      octopus.closeAdmin();
+      adminView.render();
+    });
+
+    this.submit.addEventListener("click", function () {
+      var cat = {
+        name: document.getElementById("name").value,
+        imgSrc: document.getElementById("url").value,
+        imgAttribution: document.getElementById("url").value,
+        clickCount: document.getElementById("clicks").value,
+      };
+      console.log(cat);
+      octopus.addCat(cat);
+      octopus.closeAdmin();
+      adminView.render();
+      catListView.render();
+    });
+
     this.render();
   },
   render: function () {
+    this.adminArea.style.display = model.adminView ? "block" : "none";
     console.log("model.adminView", model.adminView);
   },
 };
-
-// var adminView = {
-//   init: function () {
-//     // this.render();
-//     this.adminArea = document.getElementById("admin-area");
-//   },
-//   render: function () {
-//     this.adminArea = document.getElementById("admin-area");
-//   },
-// };
-
-// var saveView = {
-//   init: function () {
-//     this.name = document.getElementById("name");
-//     this.url = document.getElementById("url");
-//     this.count = document.getElementById("count");
-//     this.submit = document.getElementById("submit");
-//     this.render();
-//   },
-//   render: function () {},
-// };
 
 var catView = {
   init: function () {
@@ -167,7 +171,7 @@ var catListView = {
           };
         })(cat)
       );
-      console.log(elem);
+      // console.log(elem);
       this.catListElem.appendChild(elem);
     }
   },
