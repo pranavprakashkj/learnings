@@ -27,8 +27,10 @@
 			<div class="view">
 				<input class="toggle" type="checkbox" <%= completed ? 'checked' : '' %>>
 				<label><%- title %><%= completed ? ' --Done' : '' %></label>
+				<button class="priority-btn"></button>
 				<button class="destroy"></button>
 				<button class="edit-btn"></button>
+				
 			</div>
 			<input class="edit" value="<%- title %>">
 		</script>

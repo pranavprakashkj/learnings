@@ -20,6 +20,7 @@ var app = app || {};
       "click .toggle": "toggleCompleted",
       "dblclick label": "edit",
       "click .destroy": "clear",
+      "click .priority-btn": "priority",
       "click .edit-btn": "edit",
       "keypress .edit": "updateOnEnter",
       "keydown .edit": "revertOnEscape",
@@ -51,6 +52,7 @@ var app = app || {};
 
       this.$el.html(this.template(this.model.toJSON()));
       this.$el.toggleClass("completed", this.model.get("completed"));
+      this.$el.toggleClass("priority", this.model.get("priority"));
       this.toggleVisible();
       this.$input = this.$(".edit");
       return this;
@@ -58,6 +60,11 @@ var app = app || {};
 
     toggleVisible: function () {
       this.$el.toggleClass("hidden", this.isHidden());
+    },
+
+    // Toggle the `"priority"` state of the model.
+    priority: function () {
+      this.model.priority();
     },
 
     isHidden: function () {
